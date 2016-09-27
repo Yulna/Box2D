@@ -3,8 +3,10 @@
 #include "ModulePhysics.h"
 #include "math.h"
 
-#define METER_TO_PIXEL(a) 10*a
+#define METER_TO_PIXEL(a) a*10
 #define PIXEL_TO_METER(a) 10*a
+
+#define METER_TO_PIXELES(a) a/10
 
 // TODO 1: Include Box 2 header and library
 
@@ -43,7 +45,7 @@ bool ModulePhysics::Start()
 	// - You need to send it a default gravity
 	// - You need init the world in the constructor
 	// - Remember to destroy the world after using it
-	b2Vec2 gravity(0.0f, -10.0f);
+	b2Vec2 gravity(0.0f, 10.0f);
 	world = new b2World(gravity);
 
 
@@ -51,12 +53,12 @@ bool ModulePhysics::Start()
 
 	b2BodyDef bodyDef;
 	bodyDef.type = b2_staticBody;
-	bodyDef.position.Set(PIXEL_TO_METER(1.0f), PIXEL_TO_METER(1.0f));
+	bodyDef.position.Set(PIXEL_TO_METER(5.0f), PIXEL_TO_METER(3.9f));
 
 	b2Body* ground = world->CreateBody(&bodyDef);
 
 	b2CircleShape shape;
-	shape.m_radius = PIXEL_TO_METER(5);
+	shape.m_radius = PIXEL_TO_METER(3);
 
 	b2FixtureDef fixture;
 	fixture.shape = &shape;
@@ -82,9 +84,14 @@ update_status ModulePhysics::PostUpdate()
 	// - You need to transform the position / radius
 
 	if (App->input->GetKey(SDL_SCANCODE_SPACE) == KEY_DOWN) {
+
+		int x = App->input->GetMouseX();
+		int y = App->input->GetMouseY();
+
+	
 		b2BodyDef bodyDef;
 		bodyDef.type = b2_dynamicBody;
-		bodyDef.position.Set(PIXEL_TO_METER(5.0f), PIXEL_TO_METER(5.0f));
+		bodyDef.position.Set(METER_TO_PIXELES(x), METER_TO_PIXELES(y));
 
 		b2Body* ball = world->CreateBody(&bodyDef);
 
@@ -95,7 +102,9 @@ update_status ModulePhysics::PostUpdate()
 		fixture.shape = &shape;
 
 		ball->CreateFixture(&fixture);
+		
 	}
+
 
 	if(App->input->GetKey(SDL_SCANCODE_F1) == KEY_DOWN)
 		debug = !debug;
