@@ -5,6 +5,7 @@
 #include "ModuleInput.h"
 #include "ModuleTextures.h"
 #include "ModulePhysics.h"
+#include "p2DynArray.h"
 
 ModuleSceneIntro::ModuleSceneIntro(Application* app, bool start_enabled) : Module(app, start_enabled)
 {
@@ -26,6 +27,8 @@ bool ModuleSceneIntro::Start()
 	box = App->textures->Load("pinball/crate.png");
 	rick = App->textures->Load("pinball/rick_head.png");
 
+	p2DynArray<BodyData>* cArray;
+
 	return ret;
 }
 
@@ -41,8 +44,23 @@ bool ModuleSceneIntro::CleanUp()
 update_status ModuleSceneIntro::Update()
 {
 	// TODO 5: Move all creation of bodies on 1,2,3 key press here in the scene
+	if (App->input->GetKey(SDL_SCANCODE_1) == KEY_DOWN)
+	{
+		App->physics->CreateCircle();
+	}
+
+	if (App->input->GetKey(SDL_SCANCODE_2) == KEY_DOWN)
+	{
+		App->physics->CreateRectangle();
+	}
+
+	if (App->input->GetKey(SDL_SCANCODE_3) == KEY_DOWN)
+	{
+		App->physics->CreateChain();
+	}
 	
 	// TODO 7: Draw all the circles using "circle" texture
+
 
 	return UPDATE_CONTINUE;
 }
