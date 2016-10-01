@@ -3,7 +3,9 @@
 #include "p2List.h"
 #include "Globals.h"
 
+
 class PhysBody;
+class BodyData;
 
 class ModuleSceneIntro : public Module
 {
@@ -16,6 +18,8 @@ public:
 	bool CleanUp();
 
 public:
+
+	p2List<BodyData*> cList;
 
 	SDL_Texture* circle;
 	SDL_Texture* box;

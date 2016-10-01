@@ -5,7 +5,6 @@
 #include "ModuleInput.h"
 #include "ModuleTextures.h"
 #include "ModulePhysics.h"
-#include "p2DynArray.h"
 
 ModuleSceneIntro::ModuleSceneIntro(Application* app, bool start_enabled) : Module(app, start_enabled)
 {
@@ -27,7 +26,6 @@ bool ModuleSceneIntro::Start()
 	box = App->textures->Load("pinball/crate.png");
 	rick = App->textures->Load("pinball/rick_head.png");
 
-	p2DynArray<BodyData>* cArray;
 
 	return ret;
 }
@@ -40,26 +38,40 @@ bool ModuleSceneIntro::CleanUp()
 	return true;
 }
 
+
 // Update: draw background
 update_status ModuleSceneIntro::Update()
 {
 	// TODO 5: Move all creation of bodies on 1,2,3 key press here in the scene
 	if (App->input->GetKey(SDL_SCANCODE_1) == KEY_DOWN)
 	{
-		App->physics->CreateCircle();
+		cList.add(App->physics->CreateCircle(App->input->GetMouseX(), App->input->GetMouseY()));
 	}
 
 	if (App->input->GetKey(SDL_SCANCODE_2) == KEY_DOWN)
 	{
-		App->physics->CreateRectangle();
+		App->physics->CreateRectangle(App->input->GetMouseX(), App->input->GetMouseY());
 	}
 
 	if (App->input->GetKey(SDL_SCANCODE_3) == KEY_DOWN)
 	{
-		App->physics->CreateChain();
+		App->physics->CreateChain(App->input->GetMouseX(), App->input->GetMouseY());
 	}
 	
 	// TODO 7: Draw all the circles using "circle" texture
+	if (cList.count() != 0) {
+		p2List_item<BodyData*>* temp;
+		temp = cList.getFirst();
+
+		int x;
+		int y;
+
+		for (; temp != nullptr; temp = temp->next)
+		{
+			temp->data->GetPosition(x, y);
+
+		}
+	}
 
 
 	return UPDATE_CONTINUE;

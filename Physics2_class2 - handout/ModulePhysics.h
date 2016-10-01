@@ -45,9 +45,9 @@ public:
 
 	// TODO 4: Move body creation to 3 functions to create circles, rectangles and chains
 
-	BodyData* CreateCircle();
-	void CreateRectangle();
-	void CreateChain();
+	BodyData* CreateCircle(int x, int y);
+	void CreateRectangle(int x, int y);
+	void CreateChain(int x, int y);
 
 private:
 

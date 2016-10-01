@@ -55,7 +55,7 @@ bool ModulePhysics::Start()
 	bodyDef.type = b2_staticBody;
 	bodyDef.position.Set(PIXEL_TO_METER(5.0f), PIXEL_TO_METER(3.9f));
 
-	b2Body* ground = world->CreateBody(&bodyDef);
+	b2Body* groundball = world->CreateBody(&bodyDef);
 
 	b2CircleShape shape;
 	shape.m_radius = PIXEL_TO_METER(3);
@@ -63,7 +63,24 @@ bool ModulePhysics::Start()
 	b2FixtureDef fixture;
 	fixture.shape = &shape;
 	
-	ground->CreateFixture(&fixture);
+	groundball->CreateFixture(&fixture);
+
+
+
+	//Box - Terrain
+	b2BodyDef groundDef;
+	groundDef.type = b2_staticBody;
+	groundDef.position.Set(PIXEL_TO_METER(5.0f), PIXEL_TO_METER(5.0f));
+
+	b2Body* ground = world->CreateBody(&groundDef);
+
+	b2PolygonShape groundshape;
+	groundshape.SetAsBox(0.1f, 0.1f);
+
+	b2FixtureDef groundfixture;
+	groundfixture.shape = &groundshape;
+
+	ground->CreateFixture(&groundfixture);
 
 	return true;
 }
@@ -104,6 +121,9 @@ update_status ModulePhysics::PostUpdate()
 		ball->CreateFixture(&fixture);
 		
 	}
+
+	
+
 
 
 	if(App->input->GetKey(SDL_SCANCODE_F1) == KEY_DOWN)
