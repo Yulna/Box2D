@@ -60,6 +60,7 @@ update_status ModuleSceneIntro::Update()
 	
 	// TODO 7: Draw all the circles using "circle" texture
 	if (cList.count() != 0) {
+
 		p2List_item<BodyData*>* temp;
 		temp = cList.getFirst();
 

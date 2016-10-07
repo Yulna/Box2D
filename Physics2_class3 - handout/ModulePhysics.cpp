@@ -30,6 +30,9 @@ bool ModulePhysics::Start()
 	world = new b2World(b2Vec2(GRAVITY_X, -GRAVITY_Y));
 	// TODO 3: You need to make ModulePhysics class a contact listener
 
+	world->SetContactListener(this);
+	
+
 	// big static circle as "ground" in the middle of the screen
 	int x = SCREEN_WIDTH / 2;
 	int y = SCREEN_HEIGHT / 1.5f;
@@ -51,6 +54,14 @@ bool ModulePhysics::Start()
 
 	return true;
 }
+
+
+void ModulePhysics::BeginContact(b2Contact * contact)
+{
+
+	LOG("Collision!");
+}
+
 
 // 
 update_status ModulePhysics::PreUpdate()
@@ -147,6 +158,7 @@ PhysBody* ModulePhysics::CreateChain(int x, int y, int* points, int size)
 
 	return pbody;
 }
+
 
 // 
 update_status ModulePhysics::PostUpdate()
